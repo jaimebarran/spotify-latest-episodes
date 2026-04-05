@@ -19,7 +19,8 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
 
 # Cargar configuración desde el archivo JSON
 def load_config():
-    with open('./config.json', 'r') as config_file:
+    # TODO: add type annotations for parameters/return type
+    with open('./config.json', 'r', encoding="utf-8") as config_file:
         config = json.load(config_file)
 
     # Filtrar los podcasts (mantener el orden original del archivo)
@@ -27,7 +28,8 @@ def load_config():
 
     return config
 
-def get_recent_episodes_from_podcast(sp, podcast_id):
+def get_recent_episodes_from_podcast(sp, podcast_id: int) -> list:
+    # TODO: add type annotations for remaining parameters/return type
     """Obtiene el episodio más reciente del podcast dado (solo el URI y nombre)."""
     try:
         # Obtenemos los detalles del podcast para conseguir su nombre
@@ -75,7 +77,8 @@ def get_recent_episodes_from_podcast(sp, podcast_id):
         print(f"⚠️ Error inesperado: {e}")
         return []
 
-def get_playlist_episodes(sp, playlist_id):
+def get_playlist_episodes(sp, playlist_id: int) -> list:
+    # TODO: add type annotations for remaining parameters/return type
     """Obtiene las URIs de los episodios actuales de la playlist."""
     try:
         # Obtenemos las pistas de la playlist
@@ -102,7 +105,8 @@ def get_playlist_episodes(sp, playlist_id):
         return []
 
 
-def update_playlist(sp, playlist_id, episode_ids):
+def update_playlist(sp, playlist_id: int, episode_ids) -> None:
+    # TODO: add type annotations for remaining parameters/return type
     """Reemplaza los episodios en la playlist con los nuevos episodios."""
     try:
         # Eliminamos todos los episodios actuales de la playlist
@@ -120,10 +124,10 @@ def update_playlist(sp, playlist_id, episode_ids):
     except Exception as e:
         print(f"⚠️ Error al actualizar la playlist: {e}")
 
-def main():
+def main() -> None:
 
     # Remove the status.log file
-    open('./status.log', 'w').close()
+    open('./status.log', 'w', encoding="utf-8").close()
 
     # Cargar los valores
     config = load_config()
