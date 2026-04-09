@@ -2,6 +2,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import json, os
 from dotenv import load_dotenv
+from typing import Any
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,8 +19,8 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
                                                scope=['playlist-modify-public', 'playlist-modify-private', 'playlist-read-private', 'user-read-playback-position']))
 
 # Cargar configuración desde el archivo JSON
-def load_config():
-    with open('./config.json', 'r') as config_file:
+def load_config() -> dict[str, Any]:
+    with open('./config.json', 'r', encoding="utf-8") as config_file:
         config = json.load(config_file)
 
     # Filtrar los podcasts (mantener el orden original del archivo)
@@ -27,7 +28,7 @@ def load_config():
 
     return config
 
-def get_recent_episodes_from_podcast(sp, podcast_id):
+def get_recent_episodes_from_podcast(sp: spotipy.Spotify, podcast_id: str) -> list[str]:
     """Obtiene el episodio más reciente del podcast dado (solo el URI y nombre)."""
     try:
         # Obtenemos los detalles del podcast para conseguir su nombre
@@ -75,7 +76,7 @@ def get_recent_episodes_from_podcast(sp, podcast_id):
         print(f"⚠️ Error inesperado: {e}")
         return []
 
-def get_playlist_episodes(sp, playlist_id):
+def get_playlist_episodes(sp: spotipy.Spotify, playlist_id: str) -> list[str]:
     """Obtiene las URIs de los episodios actuales de la playlist."""
     try:
         # Obtenemos las pistas de la playlist
@@ -102,7 +103,7 @@ def get_playlist_episodes(sp, playlist_id):
         return []
 
 
-def update_playlist(sp, playlist_id, episode_ids):
+def update_playlist(sp: spotipy.Spotify, playlist_id: str, episode_ids: list[str]) -> None:
     """Reemplaza los episodios en la playlist con los nuevos episodios."""
     try:
         # Eliminamos todos los episodios actuales de la playlist
