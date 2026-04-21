@@ -22,3 +22,4 @@ Error response from daemon: Docker Desktop is unable to start
 Error response from daemon: Docker Desktop is unable to start
 Error response from daemon: Docker Desktop is unable to start
 failed to connect to the docker API at unix:///home/debi/.docker/desktop/docker.sock; check if the path is correct and if the daemon is running: dial unix /home/debi/.docker/desktop/docker.sock: connect: no such file or directory
+failed to connect to the docker API at unix:///home/debi/.docker/desktop/docker.sock; check if the path is correct and if the daemon is running: dial unix /home/debi/.docker/desktop/docker.sock: connect: no such file or directory
