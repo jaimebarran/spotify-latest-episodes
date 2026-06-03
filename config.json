@@ -58,7 +58,8 @@
         },
         {
             "id": "1OZb8uCoiy9vG5mIyL9ytg",
-            "name": "Clave Barroso"
+            "name": "Clave Barroso",
+            "ignore": true
         },
         {
             "id": "2iKebgGPe7a1a13zUr0Q20",
