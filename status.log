@@ -52,3 +52,90 @@ failed to connect to the docker API at unix:///home/debi/.docker/desktop/docker.
 failed to connect to the docker API at unix:///home/debi/.docker/desktop/docker.sock; check if the path is correct and if the daemon is running: dial unix /home/debi/.docker/desktop/docker.sock: connect: no such file or directory
 failed to connect to the docker API at unix:///home/debi/.docker/desktop/docker.sock; check if the path is correct and if the daemon is running: dial unix /home/debi/.docker/desktop/docker.sock: connect: no such file or directory
 permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+Unable to find image 'jaimebarran/spotify-latest-episodes:latest' locally
+docker: error getting credentials - err: exec: "docker-credential-desktop": executable file not found in $PATH, out: ``
+
+Run 'docker run --help' for more information
+permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+Unable to find image 'jaimebarran/spotify-latest-episodes:latest' locally
+latest: Pulling from jaimebarran/spotify-latest-episodes
+80b7316254b3: Already exists
+36e4db86de6e: Already exists
+8ea45766c644: Already exists
+3cb1455cf185: Already exists
+013acb959c95: Already exists
+ee334269ae4f: Already exists
+3eca4263ed42: Already exists
+bbb216f0de14: Pulling fs layer
+1c4118dfca68: Pulling fs layer
+0f56038e2d96: Pulling fs layer
+8050cb3f776a: Pulling fs layer
+150b2921f20c: Pulling fs layer
+c366e5bf0498: Pulling fs layer
+d98709041a4c: Pulling fs layer
+ba1eeadf56e2: Pulling fs layer
+8ab12b01906c: Pulling fs layer
+81a094656182: Pulling fs layer
+1b8716c8deee: Pulling fs layer
+fee3d58e8aac: Pulling fs layer
+e1febd5397c9: Pulling fs layer
+686011acfb89: Pulling fs layer
+295c0edaabe5: Pulling fs layer
+150b2921f20c: Waiting
+1b8716c8deee: Waiting
+81a094656182: Waiting
+8ab12b01906c: Waiting
+c366e5bf0498: Waiting
+8050cb3f776a: Waiting
+fee3d58e8aac: Waiting
+e1febd5397c9: Waiting
+295c0edaabe5: Waiting
+686011acfb89: Waiting
+d98709041a4c: Waiting
+0f56038e2d96: Verifying Checksum
+0f56038e2d96: Download complete
+8050cb3f776a: Verifying Checksum
+8050cb3f776a: Download complete
+1c4118dfca68: Download complete
+bbb216f0de14: Verifying Checksum
+bbb216f0de14: Download complete
+bbb216f0de14: Pull complete
+c366e5bf0498: Verifying Checksum
+c366e5bf0498: Download complete
+1c4118dfca68: Pull complete
+0f56038e2d96: Pull complete
+8050cb3f776a: Pull complete
+d98709041a4c: Verifying Checksum
+d98709041a4c: Download complete
+150b2921f20c: Pull complete
+c366e5bf0498: Pull complete
+d98709041a4c: Pull complete
+ba1eeadf56e2: Verifying Checksum
+ba1eeadf56e2: Download complete
+ba1eeadf56e2: Pull complete
+8ab12b01906c: Verifying Checksum
+8ab12b01906c: Download complete
+8ab12b01906c: Pull complete
+fee3d58e8aac: Verifying Checksum
+fee3d58e8aac: Download complete
+81a094656182: Verifying Checksum
+81a094656182: Download complete
+1b8716c8deee: Verifying Checksum
+1b8716c8deee: Download complete
+686011acfb89: Verifying Checksum
+686011acfb89: Download complete
+e1febd5397c9: Verifying Checksum
+e1febd5397c9: Download complete
+295c0edaabe5: Verifying Checksum
+295c0edaabe5: Download complete
+81a094656182: Pull complete
+1b8716c8deee: Pull complete
+fee3d58e8aac: Pull complete
+e1febd5397c9: Pull complete
+686011acfb89: Pull complete
+295c0edaabe5: Pull complete
+docker: error creating lease: Canceled: grpc: the client connection is closing: context canceled
+
+Run 'docker run --help' for more information
