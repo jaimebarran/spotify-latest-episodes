@@ -142,3 +142,4 @@ Run 'docker run --help' for more information
 Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
 Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
 Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
