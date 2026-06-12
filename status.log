@@ -139,3 +139,4 @@ e1febd5397c9: Pull complete
 docker: error creating lease: Canceled: grpc: the client connection is closing: context canceled
 
 Run 'docker run --help' for more information
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
