@@ -1,6 +1,6 @@
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-import json, os
+from spotipy.oauth2 import SpotifyOAuth, SpotifyOauthError
+import json, os, sys
 from dotenv import load_dotenv
 from typing import Any
 
@@ -12,11 +12,44 @@ client_id = os.getenv('SPOTIPY_CLIENT_ID')
 client_secret = os.getenv('SPOTIPY_CLIENT_SECRET')
 redirect_uri = os.getenv('SPOTIPY_REDIRECT_URI')
 
-# Set up Spotify API credentials and authenticate
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
-                                               client_secret=client_secret,
-                                               redirect_uri=redirect_uri,
-                                               scope=['playlist-modify-public', 'playlist-modify-private', 'playlist-read-private', 'user-read-playback-position']))
+CACHE_PATH = './.cache'
+SCOPE = ['playlist-modify-public', 'playlist-modify-private', 'playlist-read-private', 'user-read-playback-position']
+
+def build_spotify_client() -> spotipy.Spotify:
+    """Autentica contra Spotify, renovando la sesión si el refresh token ha caducado.
+
+    Desde el 2026-07-20 Spotify caduca los refresh tokens a los 6 meses. Cuando eso
+    ocurre, la renovación devuelve `invalid_grant` y hay que descartar el token
+    guardado y volver a iniciar sesión (Spotify prohíbe reintentar la renovación).
+    """
+    auth_manager = SpotifyOAuth(client_id=client_id,
+                                client_secret=client_secret,
+                                redirect_uri=redirect_uri,
+                                scope=SCOPE,
+                                cache_path=CACHE_PATH,
+                                open_browser=sys.stdin.isatty())
+
+    try:
+        token_info = auth_manager.validate_token(auth_manager.cache_handler.get_cached_token())
+    except SpotifyOauthError as e:
+        print(f"⚠️ El refresh token ya no es válido ({e}).")
+        print(f"🗑️ Descartando {CACHE_PATH}...")
+        if os.path.exists(CACHE_PATH):
+            os.remove(CACHE_PATH)
+        token_info = None
+
+    if token_info:
+        return spotipy.Spotify(auth_manager=auth_manager)
+
+    # Sin token válido hace falta pasar por el navegador: imposible bajo cron/docker.
+    if not sys.stdin.isatty():
+        print("❌ Se requiere volver a autorizar la app en Spotify, pero no hay terminal interactiva.")
+        print("❌ Ejecuta 'python main.py' a mano en una sesión con navegador para regenerar ./.cache.")
+        sys.exit(1)
+
+    print("🔑 Abriendo el navegador para volver a autorizar la app...")
+    auth_manager.get_access_token(check_cache=False, as_dict=False)
+    return spotipy.Spotify(auth_manager=auth_manager)
 
 # Cargar configuración desde el archivo JSON
 def load_config() -> dict[str, Any]:
@@ -125,6 +158,10 @@ def main():
 
     # Remove the status.log file
     open('./status.log', 'w').close()
+
+    # Autenticamos antes de nada, para que un token caducado falle una sola vez
+    # y de forma visible, en vez de una vez por cada podcast
+    sp = build_spotify_client()
 
     # Cargar los valores
     config = load_config()
