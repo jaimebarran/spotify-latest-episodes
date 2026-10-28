@@ -34,7 +34,9 @@
         },
         {
             "id": "12CqPzHZXXX0nrkuwX9dNE",
-            "name": "DESPIERTA TU CURIOSIDAD"
+            "name": "DESPIERTA TU CURIOSIDAD",
+            "sequential": true,
+            "start_date": "2026-10-28"
         },
         {
             "id": "3iM6J3KDbrzqcuWfUw0LLk",

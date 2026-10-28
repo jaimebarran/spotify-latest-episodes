@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth, SpotifyOauthError
 import json, os, sys
 from dotenv import load_dotenv
 from typing import Any
+from datetime import date
 
 # Load environment variables from .env file
 load_dotenv()
@@ -109,6 +110,42 @@ def get_recent_episodes_from_podcast(sp: spotipy.Spotify, podcast_id: str) -> li
         print(f"⚠️ Error inesperado: {e}")
         return []
 
+def get_sequential_episode_from_podcast(sp: spotipy.Spotify, podcast: dict[str, Any], today: date | None = None) -> list[str]:
+    """Obtiene el episodio que toca hoy de un podcast que se reproduce de más antiguo a más nuevo.
+
+    Es determinista: el episodio es el número (hoy - start_date) contando desde el más
+    antiguo, así que da igual cuántas veces se ejecute el script en un mismo día.
+    Si se acaban los episodios, se queda en el más reciente.
+    """
+    podcast_id = podcast['id']
+    try:
+        today = today or date.today()
+        index = (today - date.fromisoformat(podcast['start_date'])).days
+        if index < 0:
+            print(f"⚠️ {podcast['name']}: start_date {podcast['start_date']} es futura, se omite.")
+            return []
+
+        # Los episodios vienen del más nuevo al más antiguo, así que contamos desde el final
+        total = sp.show_episodes(podcast_id, limit=1, market="ES")['total']
+        index = min(index, total - 1)
+        episodes = sp.show_episodes(podcast_id, limit=1, offset=total - 1 - index, market="ES")
+
+        episode = next((e for e in episodes.get('items', []) if e), None)
+        if not episode:
+            print(f"⚠️ No se encontró el episodio {index + 1}/{total} del podcast {podcast['name']}.")
+            return []
+
+        print(f"🎧 Podcast: {podcast['name']} | Episodio {index + 1}/{total} (de más antiguo a más nuevo): "
+              f"{episode['name']} ({episode['release_date']})")
+        return [episode['uri']]
+
+    except spotipy.exceptions.SpotifyException as e:
+        print(f"⚠️ Error al obtener episodios del podcast {podcast_id}: {e}")
+        return []
+    except Exception as e:
+        print(f"⚠️ Error inesperado: {e}")
+        return []
+
 def get_playlist_episodes(sp: spotipy.Spotify, playlist_id: str) -> list[str]:
     """Obtiene las URIs de los episodios actuales de la playlist."""
     try:
@@ -168,18 +205,22 @@ def main():
 
     # Extraer los valores de la configuración
     PLAYLIST_ID = config['playlist']['id']
-    PODCAST_IDS = [podcast['id'] for podcast in config['podcasts']]
+    PODCASTS = config['podcasts']
 
-    # Ahora puedes usar PODCAST_IDS y PLAYLIST_ID en tu código
-    print("Podcast IDs:", PODCAST_IDS)
+    # Ahora puedes usar PODCASTS y PLAYLIST_ID en tu código
+    print("Podcast IDs:", [podcast['id'] for podcast in PODCASTS])
     print("Playlist ID:", PLAYLIST_ID)
-    
-    # Obtenemos los episodios más recientes de cada podcast
+
+    # Obtenemos los episodios de cada podcast: el más reciente, o el que toca hoy
+    # si el podcast está marcado como "sequential" en config.json
     # TODO: obtener un episodio en concreto por su nombre (e.g. "Las tres noticias de Carlos Alsina" de "Más de uno")
     episode_ids = []
-    for podcast_id in PODCAST_IDS:
-        recent_episodes = get_recent_episodes_from_podcast(sp, podcast_id)
-        episode_ids.extend(recent_episodes)
+    for podcast in PODCASTS:
+        if podcast.get('sequential'):
+            episodes = get_sequential_episode_from_podcast(sp, podcast)
+        else:
+            episodes = get_recent_episodes_from_podcast(sp, podcast['id'])
+        episode_ids.extend(episodes)
         
     # Actualizamos la playlist con los nuevos episodios
     if episode_ids:
