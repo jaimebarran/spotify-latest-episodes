@@ -39,18 +39,6 @@
             "start_date": "2026-10-28"
         },
         {
-            "id": "3iM6J3KDbrzqcuWfUw0LLk",
-            "name": "¿Qué pasa, Barroso?"
-        },
-        {
-            "id": "5dbvpKwtqz3X3hcX1BSEzf",
-            "name": "No es el fin del mundo"
-        },
-        {
-            "id": "47cbCjksqpZfbMqc9HrI0p",
-            "name": "Noticias paralelas"
-        },
-        {
             "id": "0cLJl7pvrr1bkUaKiVRggf",
             "name": "Las Noticias de ABC"
         },
@@ -58,6 +46,22 @@
             "id": "0FTwiCMKTwCTmySy4u2X3j",
             "name": "La Primera de Expansión"
         },
+        {
+            "id": "47cbCjksqpZfbMqc9HrI0p",
+            "name": "Noticias paralelas"
+        },        
+        {
+            "id": "3iM6J3KDbrzqcuWfUw0LLk",
+            "name": "¿Qué pasa, Barroso?"
+        },
+        {
+            "id": "3SQXsvSIgFFl4T2BUqlrV0",
+            "name": "Cañones o Mantequilla"
+        },        
+        {
+            "id": "5dbvpKwtqz3X3hcX1BSEzf",
+            "name": "No es el fin del mundo"
+        },        
         {
             "id": "1OZb8uCoiy9vG5mIyL9ytg",
             "name": "Clave Barroso",
